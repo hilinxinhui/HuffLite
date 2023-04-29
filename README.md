@@ -17,6 +17,13 @@
 ```Shell
 $ conda create -n hufflite
 $ conda activate hufflite
-$ conda install python=3.6
-$ pip install pythontk
+$ conda install python=3.8
+# $ pip install pythontk
+```
+
+方便起见，作者上传了 [环境配置文件](./hufflite_env.yaml)，可以通过以下命令创建环境：
+
+```Shell
+$ cd HuffLite
+$ conda env create -f hufflite_env.yaml
 ```
