@@ -2,26 +2,26 @@
 
 
 int main() {
-    char infile_name[256], outfile_name[256]; /* ÊäÈëÊä³öÎÄ¼şÃû */
-    int option, flag; /* optionÑ¡Ôñ²Ù×÷, flagÅĞ¶¨En/Decode×´Ì¬ */
-    char ch[2]; /* ÓÃgets(ch)´ïµ½getchar()µÈ´ı¼üÅÌÊäÈëµÄĞ§¹û */
+    char infile_name[256], outfile_name[256]; /* è¾“å…¥è¾“å‡ºæ–‡ä»¶å */
+    int option, flag; /* optioné€‰æ‹©æ“ä½œ, flagåˆ¤å®šEn/DecodeçŠ¶æ€ */
+    char ch[2]; /* ç”¨gets(ch)è¾¾åˆ°getchar()ç­‰å¾…é”®ç›˜è¾“å…¥çš„æ•ˆæœ */
     
     while (TRUE) {
         flag = 0;
-    /* Ñ¡Ôñ²Ù×÷ */
+    /* é€‰æ‹©æ“ä½œ */
     LOOP:
         OutputInfo();
-        fflush(stdin); /* Çå¿Õ±ê×¼ÊäÈë»º³åÇø, ÏÂÍ¬´ÓÂÔ */
+        fflush(stdin); /* æ¸…ç©ºæ ‡å‡†è¾“å…¥ç¼“å†²åŒº, ä¸‹åŒä»ç•¥ */
         scanf("%d", &option);
 
         if (option == 3) {
-            /* Ö±½ÓÍË³ö */
+            /* ç›´æ¥é€€å‡º */
             printf("The program has run to completion.\n");
             printf("Thanks for using this program!\n");
             break;
         }
         else if (option == 1 || option == 2) {
-            /* ¶ÁÈ¡ÊäÈëÊä³öÎÄ¼şµÄ£¨¾ø¶Ô£©Â·¾¶ */
+            /* è¯»å–è¾“å…¥è¾“å‡ºæ–‡ä»¶çš„ï¼ˆç»å¯¹ï¼‰è·¯å¾„ */
             printf("Please enter the absolute path of the input file:\n");
             fflush(stdin);
             gets(infile_name);
@@ -30,7 +30,7 @@ int main() {
             gets(outfile_name);
         }
         else {
-            /* ÊäÈë´íÎó */
+            /* è¾“å…¥é”™è¯¯ */
             printf("The selected function does not exist, please try again!\n");
             printf("Press any key to continue...\n");
             fflush(stdin);
@@ -38,7 +38,7 @@ int main() {
             goto LOOP;
         }
 
-        /* Ñ¡Ôñ²Ù×÷ */
+        /* é€‰æ‹©æ“ä½œ */
         switch (option) {
             case 1:
                 printf("Checking input validity, please wait......\n");
@@ -81,10 +81,10 @@ int main() {
 
 
 void OutputInfo() {
-    /* ÇåÆÁ, macOS/LinuxÏÂÊ¹ÓÃsystem("clear"); */
+    /* æ¸…å±, macOS/Linuxä¸‹ä½¿ç”¨system("clear"); */
     system("cls");
 
-    /* ¼òµ¥½»»¥ */
+    /* ç®€å•äº¤äº’ */
     printf("-------Huffman En-Decoder-------\n");
     printf("@author: _linxinhui_\n");
     /* Other Info:
@@ -100,30 +100,30 @@ void OutputInfo() {
 
 int GetFrequency(char *infile_name, CharFreqTable *t, unsigned int *num, unsigned int *len) {
     FILE *infile;
-    unsigned char temp_char; /* Ôİ´æ×Ö·û£¨8bitsÎ»´®£© */
+    unsigned char temp_char; /* æš‚å­˜å­—ç¬¦ï¼ˆ8bitsä½ä¸²ï¼‰ */
     int i;
 
-    /* ´´½¨Ë³Ğò±í, ÓÃ8Î»´æ´¢×Ö·û, ×î¶àÄÜ´æ256ÖÖ×Ö·û, Êı×é/Ë³Ğò±í³¤¶ÈÖÃÎª256 */
+    /* åˆ›å»ºé¡ºåºè¡¨, ç”¨8ä½å­˜å‚¨å­—ç¬¦, æœ€å¤šèƒ½å­˜256ç§å­—ç¬¦, æ•°ç»„/é¡ºåºè¡¨é•¿åº¦ç½®ä¸º256 */
     *t = (CharFreqTable)malloc(MAXCHARTYPE * sizeof(CharFreqNode));
     if (*t == NULL) {
         printf("Space applying failed, please try again.");
         return FAILED;
     }
 
-    /* ³õÊ¼»¯Ôİ´æ×Ö·û½Úµã */
+    /* åˆå§‹åŒ–æš‚å­˜å­—ç¬¦èŠ‚ç‚¹ */
     for (i = 0; i < 256; ++ i) {
-        /* Êı×éµÄ256¸öÏÂ±êÓë£¨¿ÉÄÜµÄ£©256¸ö×Ö·û¶ÔÓ¦ */
+        /* æ•°ç»„çš„256ä¸ªä¸‹æ ‡ä¸ï¼ˆå¯èƒ½çš„ï¼‰256ä¸ªå­—ç¬¦å¯¹åº” */
         (*t)[i].ch = (unsigned char)i;
         (*t)[i].freq = 0;
     }
 
-    /* ´ò¿ªÎÄ¼ş */
+    /* æ‰“å¼€æ–‡ä»¶ */
     infile = fopen(infile_name, "rb");
     if (infile == NULL) {
         return ERROR;
     }
 
-    /* ¶ÁÎÄ¼ş, »ñÈ¡×Ö·ûÆµ¶È */
+    /* è¯»æ–‡ä»¶, è·å–å­—ç¬¦é¢‘åº¦ */
     /* fread(buffer_pointer, size, count, file_pointer) */
     fread((char *)(&temp_char), sizeof(unsigned char), 1, infile);
     while (!feof(infile)) {
@@ -132,13 +132,13 @@ int GetFrequency(char *infile_name, CharFreqTable *t, unsigned int *num, unsigne
         fread((char *)(&temp_char), sizeof(unsigned char), 1, infile);
     }
 
-    /* ¹Ø±ÕÎÄ¼ş */
+    /* å…³é—­æ–‡ä»¶ */
     fclose(infile);
 
-    /* ¶Ôtable°´Æµ¶ÈÅÅĞò */
+    /* å¯¹tableæŒ‰é¢‘åº¦æ’åº */
     SortTable(t);
 
-    /* Í³¼ÆÊµ¼Ê×Ö·ûÖÖÀà, ²¢ÌŞ³ıÆµ¶ÈÎª0µÄ×Ö·û */
+    /* ç»Ÿè®¡å®é™…å­—ç¬¦ç§ç±», å¹¶å‰”é™¤é¢‘åº¦ä¸º0çš„å­—ç¬¦ */
     for (i = 0; i < MAXCHARTYPE; ++ i) {
         if ((*t)[i].freq == 0) {
             break;
@@ -154,7 +154,7 @@ void SortTable(CharFreqTable *t) {
     int i, j;
     CharFreqNode temp;
 
-    /* °´½ÚµãÆµ¶ÈÃ°ÅİÅÅĞò */
+    /* æŒ‰èŠ‚ç‚¹é¢‘åº¦å†’æ³¡æ’åº */
     for (i = 0; i < MAXCHARTYPE - 1; ++ i) {
         for (j = i + 1; j < MAXCHARTYPE; ++ j) {
             if ((*t)[i].freq < (*t)[j].freq) {
@@ -173,8 +173,8 @@ int SelectNode(HufTree huf_tree, unsigned int n, int *minimum, int *second_minim
     unsigned int i;
     unsigned long min;
 
-    /* ÕÒ×îĞ¡½Úµã */
-    min = ULONG_MAX; /* ULONG_MAXÊÇunsigned long intµÄÊ®½øÖÆ×î´óÖµ */
+    /* æ‰¾æœ€å°èŠ‚ç‚¹ */
+    min = ULONG_MAX; /* ULONG_MAXæ˜¯unsigned long intçš„åè¿›åˆ¶æœ€å¤§å€¼ */
     for (i = 0; i < n; ++ i) {
         if (huf_tree[i].parent == 0 && huf_tree[i].freq < min) {
             min = huf_tree[i].freq;
@@ -183,7 +183,7 @@ int SelectNode(HufTree huf_tree, unsigned int n, int *minimum, int *second_minim
     }
     huf_tree[*minimum].parent = CHOSEN;
 
-    /* ÕÒ´ÎĞ¡½Úµã */
+    /* æ‰¾æ¬¡å°èŠ‚ç‚¹ */
     min = ULONG_MAX;
     for (i = 0; i < n; ++ i) {
         if (huf_tree[i].parent == 0 && huf_tree[i].freq < min) {
@@ -201,7 +201,7 @@ int CreateHufTree(HufTree huf_tree, unsigned int char_type_num, unsigned int nod
     int minimum, second_minimum;
 
     for (i = char_type_num; i < node_num; ++ i) {
-        SelectNode(huf_tree, i, &minimum, &second_minimum); /* Ñ¡È¡Á½¸öÆµ´Î×îĞ¡µÄ½Úµã */
+        SelectNode(huf_tree, i, &minimum, &second_minimum); /* é€‰å–ä¸¤ä¸ªé¢‘æ¬¡æœ€å°çš„èŠ‚ç‚¹ */
         huf_tree[i].lchild = minimum;
         huf_tree[i].rchild = second_minimum;
         huf_tree[i].freq = huf_tree[minimum].freq + huf_tree[second_minimum].freq;
@@ -227,15 +227,15 @@ int CreateHufCode(HufTree huf_tree, unsigned int char_type_num) {
         cur = i;
         parent = huf_tree[cur].parent;
 
-        /* ´ÓÒ¶×Ó½Úµãµ½¸ù½Úµã, ·´ÏòÉú³ÉHuffmanÂë */
+        /* ä»å¶å­èŠ‚ç‚¹åˆ°æ ¹èŠ‚ç‚¹, åå‘ç”ŸæˆHuffmanç  */
         while (parent != 0) {
             if (huf_tree[parent].lchild == cur) {
-                /* ×ó·ÖÖ§±à'0' */
+                /* å·¦åˆ†æ”¯ç¼–'0' */
                 index -= 1;
                 temp_code[index] = '0';
             }
             else {
-                /* ×ó·ÖÖ§±à'1' */
+                /* å·¦åˆ†æ”¯ç¼–'1' */
                 index -= 1;
                 temp_code[index] = '1';
             }
@@ -244,12 +244,12 @@ int CreateHufCode(HufTree huf_tree, unsigned int char_type_num) {
             parent = huf_tree[cur].parent;
         }
 
-        /* ½«Éú³ÉµÄ±àÂë±£´æµ½Ê÷½Úµã */
+        /* å°†ç”Ÿæˆçš„ç¼–ç ä¿å­˜åˆ°æ ‘èŠ‚ç‚¹ */
         huf_tree[i].huf_code = (char *)malloc((MAXCHARTYPE - index) * sizeof(char));
-        strcpy(huf_tree[i].huf_code, &temp_code[index]); /* ÕıÏò±£´æHuffmanÂë */
+        strcpy(huf_tree[i].huf_code, &temp_code[index]); /* æ­£å‘ä¿å­˜Huffmanç  */
     }
 
-    /* ÊÍ·ÅÁÙÊ±±àÂëÕ¼ÓÃµÄ¿Õ¼ä */
+    /* é‡Šæ”¾ä¸´æ—¶ç¼–ç å ç”¨çš„ç©ºé—´ */
     free(temp_code);
 
     return OK;
@@ -258,30 +258,30 @@ int CreateHufCode(HufTree huf_tree, unsigned int char_type_num) {
 
 int HuffmanEncoder(char *infile_name, char *outfile_name) {
     FILE *infile, *outfile;
-    CharFreqTable table; /* ×Ö·ûÆµ¶È±í, Í³¼Æ½ÚµãÆµ¶È²¢¿½±´µ½Ê÷½ÚµãÖ®ºó¼´±»ÊÍ·Å */
-    unsigned char temp_char; /* Ôİ´æ×Ö·û(8bitsÎ»´®) */
-    unsigned int char_type_num; /* ×Ö·û(8bitsÎ»´®)ÖÖÀàÊı */
-    unsigned int file_len = 0; /* ÎÄ¼ş³¤¶È */
-    unsigned int node_num; /* HuffmanÊ÷ÖĞ½«»áÓĞµÄ½ÚµãÊı, ÓÉÒ¶×Ó½ÚµãÊı(×Ö·ûÊı)È·¶¨ */
+    CharFreqTable table; /* å­—ç¬¦é¢‘åº¦è¡¨, ç»Ÿè®¡èŠ‚ç‚¹é¢‘åº¦å¹¶æ‹·è´åˆ°æ ‘èŠ‚ç‚¹ä¹‹åå³è¢«é‡Šæ”¾ */
+    unsigned char temp_char; /* æš‚å­˜å­—ç¬¦(8bitsä½ä¸²) */
+    unsigned int char_type_num; /* å­—ç¬¦(8bitsä½ä¸²)ç§ç±»æ•° */
+    unsigned int file_len = 0; /* æ–‡ä»¶é•¿åº¦ */
+    unsigned int node_num; /* Huffmanæ ‘ä¸­å°†ä¼šæœ‰çš„èŠ‚ç‚¹æ•°, ç”±å¶å­èŠ‚ç‚¹æ•°(å­—ç¬¦æ•°)ç¡®å®š */
     HufTree huf_tree;
-    char buffer[MAXCHARTYPE] = "\0"; /* ±àÂë»º³åÇø */
+    char buffer[MAXCHARTYPE] = "\0"; /* ç¼–ç ç¼“å†²åŒº */
     unsigned int code_len;
     unsigned int i;
 
-    /* ¶ÁÔ´ÎÄ¼ş, Í³¼Æ´ÊÆµ, ´æÔÚtable±íÖĞ */
+    /* è¯»æºæ–‡ä»¶, ç»Ÿè®¡è¯é¢‘, å­˜åœ¨tableè¡¨ä¸­ */
     if (GetFrequency(infile_name, &table, &char_type_num, &file_len) == ERROR) {
         return ERROR;
     }
 
-    /* ÈôÖ»ÓĞÒ»ÖÖ×Ö·û */
+    /* è‹¥åªæœ‰ä¸€ç§å­—ç¬¦ */
     if (char_type_num == 1) {
-        /* ´ò¿ªÎÄ¼ş */
+        /* æ‰“å¼€æ–‡ä»¶ */
         outfile = fopen(outfile_name, "wb");
         if (outfile == NULL) {
             return ERROR;
         }
 
-        /* Ğ´Èë×Ö·ûÊı¡¢×Ö·û¡¢×Ö·ûÆµ¶È(±í) */
+        /* å†™å…¥å­—ç¬¦æ•°ã€å­—ç¬¦ã€å­—ç¬¦é¢‘åº¦(è¡¨) */
         fwrite((char *)(&char_type_num), sizeof(unsigned int), 1, outfile);
         fwrite((char *)(&table[0].ch), sizeof(unsigned char), 1, outfile);
         fwrite((char *)(&table[0].freq), sizeof(unsigned long), 1, outfile);
@@ -290,67 +290,67 @@ int HuffmanEncoder(char *infile_name, char *outfile_name) {
 
         fclose(outfile);
     }
-    /* Èô²»Ö¹Ò»ÖÖ×Ö·û */
+    /* è‹¥ä¸æ­¢ä¸€ç§å­—ç¬¦ */
     else {
         node_num = 2 * char_type_num - 1;
 
         huf_tree = (HufTree)malloc(node_num * sizeof(HufTreeNode));
 
-        /* ³õÊ¼»¯HuffmanÊ÷µÄÇ°char_type_num¸ö½Úµã */
+        /* åˆå§‹åŒ–Huffmanæ ‘çš„å‰char_type_numä¸ªèŠ‚ç‚¹ */
         for (i = 0; i < char_type_num; ++ i) {
-            /* ½«tableµÄÄÚÈİ¿½±´µ½Ê÷½Úµã */
+            /* å°†tableçš„å†…å®¹æ‹·è´åˆ°æ ‘èŠ‚ç‚¹ */
             huf_tree[i].ch = table[i].ch;
             huf_tree[i].freq = table[i].freq;
             huf_tree[i].parent = 0;
         }
 
-        /* ÊÍ·Åtable */
+        /* é‡Šæ”¾table */
         free(table);
 
-        /* ³õÊ¼»¯HuffmanÊ÷µÄÊ£Óà½Úµã */
+        /* åˆå§‹åŒ–Huffmanæ ‘çš„å‰©ä½™èŠ‚ç‚¹ */
         for (i = char_type_num; i < node_num; ++ i) {
             huf_tree[i].parent = 0;
         }
 
-        /* ¹¹½¨HuffmanÊ÷ */
+        /* æ„å»ºHuffmanæ ‘ */
         CreateHufTree(huf_tree, char_type_num, node_num);
 
-        /* Éú³ÉHuffmanÂë */
+        /* ç”ŸæˆHuffmanç  */
         CreateHufCode(huf_tree, char_type_num);
 
-        /* ¿ªÊ¼Ğ´ÎÄ¼ş */
+        /* å¼€å§‹å†™æ–‡ä»¶ */
         outfile = fopen(outfile_name, "wb");
         if (outfile == NULL) {
             return ERROR;
         }
 
-        /* ÏòÎÄ¼şĞ´Èë×Ö·û¼°ÆäÆµ¶È */
+        /* å‘æ–‡ä»¶å†™å…¥å­—ç¬¦åŠå…¶é¢‘åº¦ */
         fwrite((char *)(&char_type_num), sizeof(unsigned int), 1, outfile);
         for (i = 0; i < char_type_num; ++ i) {
             fwrite((char *)(&huf_tree[i].ch), sizeof(unsigned char), 1, outfile);
             fwrite((char *)&huf_tree[i].freq, sizeof(unsigned long), 1, outfile);
         }
 
-        /* ÏòÎÄ¼şĞ´ÈëÎÄ¼ş³¤¶È */
+        /* å‘æ–‡ä»¶å†™å…¥æ–‡ä»¶é•¿åº¦ */
         fwrite((char *)(&file_len), sizeof(unsigned long), 1, outfile);
 
-        /* ×Ö·û±àÂë */
+        /* å­—ç¬¦ç¼–ç  */
         infile = fopen(infile_name, "rb");
         if (infile == NULL) {
             return ERROR;
         }
         fread((char *)(&temp_char), sizeof(unsigned char), 1, infile);
         while (!feof(infile)) {
-            /* Æ¥Åä´Óinfile¶ÁÈ¡µÄ×Ö·ûºÍ´æ´¢ÔÚHuffmanÊ÷ÖĞµÄ×Ö·û, ²¢½«¶ÔÓ¦HuffmanÂë¸´ÖÆµ½buffer */
+            /* åŒ¹é…ä»infileè¯»å–çš„å­—ç¬¦å’Œå­˜å‚¨åœ¨Huffmanæ ‘ä¸­çš„å­—ç¬¦, å¹¶å°†å¯¹åº”Huffmanç å¤åˆ¶åˆ°buffer */
             for (i = 0; i < char_type_num; ++ i) {
                 if (temp_char == huf_tree[i].ch) {
                     strcat(buffer, huf_tree[i].huf_code);
                 }
             }
 
-            /* ÒÔ8¸ö³¤¶È(ÕâÀïµÄ³¤¶È¼È¿ÉÒÔÖ¸bit, Ò²¿ÉÖ¸byte)Îªµ¥Ôª±àÂë */
+            /* ä»¥8ä¸ªé•¿åº¦(è¿™é‡Œçš„é•¿åº¦æ—¢å¯ä»¥æŒ‡bit, ä¹Ÿå¯æŒ‡byte)ä¸ºå•å…ƒç¼–ç  */
             while (strlen(buffer) >= 8) {
-                temp_char = '\0'; /* '\0'µÈ¼ÛÓÚ(0x00)_16µÈ¼ÛÓÚ(00000000)_2 */
+                temp_char = '\0'; /* '\0'ç­‰ä»·äº(0x00)_16ç­‰ä»·äº(00000000)_2 */
                 for (i = 0; i < 8; ++ i) {
                     temp_char <<= 1;
                     if (buffer[i] == '1') {
@@ -363,7 +363,7 @@ int HuffmanEncoder(char *infile_name, char *outfile_name) {
             fread((char *)(&temp_char), sizeof(unsigned char), 1, infile);
         }
         
-        /* ´¦ÀíÄ©Î²bufferÖĞ(ºÜÓĞ¿ÉÄÜ´æÔÚµÄ)²»×ã8¸ö³¤¶ÈµÄ±àÂë */
+        /* å¤„ç†æœ«å°¾bufferä¸­(å¾ˆæœ‰å¯èƒ½å­˜åœ¨çš„)ä¸è¶³8ä¸ªé•¿åº¦çš„ç¼–ç  */
         code_len = strlen(buffer);
         if (code_len > 0) {
             temp_char = '\0';
@@ -377,11 +377,11 @@ int HuffmanEncoder(char *infile_name, char *outfile_name) {
             fwrite((char *)(&temp_char), sizeof(unsigned char), 1, outfile);
         }
 
-        /* ¹Ø±ÕÎÄ¼ş */
+        /* å…³é—­æ–‡ä»¶ */
         fclose(infile);
         fclose(outfile);
 
-        /* ÊÍ·ÅHuffmanÊ÷Õ¼ÓÃµÄ¿Õ¼ä */
+        /* é‡Šæ”¾Huffmanæ ‘å ç”¨çš„ç©ºé—´ */
         for (i = 0; i < char_type_num; ++ i) {
             free(huf_tree[i].huf_code);
         }
@@ -395,30 +395,30 @@ int HuffmanEncoder(char *infile_name, char *outfile_name) {
 int HuffmanDecoder(char *infile_name, char *outfile_name) {
     FILE *infile, *outfile;
     HufTree huf_tree;
-    unsigned int root; /* ¸ù½ÚµãµØÖ· */
+    unsigned int root; /* æ ¹èŠ‚ç‚¹åœ°å€ */
     unsigned int char_type_num;
     unsigned int node_num;
-    unsigned char temp_char; /* Ôİ´æ8bits±àÂë */
+    unsigned char temp_char; /* æš‚å­˜8bitsç¼–ç  */
     unsigned long file_len = 0;
     unsigned long writen_len = 0;
     unsigned int i;
 
-    /* ´ò¿ªÎÄ¼ş */
+    /* æ‰“å¼€æ–‡ä»¶ */
     infile = fopen(infile_name, "rb");
     if (infile == NULL) {
         return ERROR;
     }
 
-    /* ¶ÁÈ¡ÎÄ¼şÍ·ĞÅÏ¢(×Ö·ûÊı) */
+    /* è¯»å–æ–‡ä»¶å¤´ä¿¡æ¯(å­—ç¬¦æ•°) */
     fread((char *)(&char_type_num), sizeof(unsigned int), 1, infile);
 
-    /* ½âÂë, µ±Ö»ÓĞÒ»ÖÖ×Ö·ûÊ± */
+    /* è§£ç , å½“åªæœ‰ä¸€ç§å­—ç¬¦æ—¶ */
     if (char_type_num == 1) {
-        /* ¶ÁÎÄ¼şÍ·ĞÅÏ¢(×Ö·û, ÎÄ¼ş³¤¶È) */
+        /* è¯»æ–‡ä»¶å¤´ä¿¡æ¯(å­—ç¬¦, æ–‡ä»¶é•¿åº¦) */
         fread((char *)(&temp_char), sizeof(unsigned char), 1, infile);
         fread((char *)(&file_len), sizeof(unsigned int), 1, infile);
 
-        /* ½âÂë */
+        /* è§£ç  */
         outfile = fopen(outfile_name, "wb");
         if (outfile == NULL) {
             return ERROR;
@@ -428,17 +428,17 @@ int HuffmanDecoder(char *infile_name, char *outfile_name) {
             -- file_len;
         }
 
-        /* ¹Ø±ÕÎÄ¼ş */
+        /* å…³é—­æ–‡ä»¶ */
         fclose(infile);
         fclose(outfile);
     }
-    /* ½âÂë, µ±²»Ö¹Ò»ÖÖ×Ö·ûÊ± */
+    /* è§£ç , å½“ä¸æ­¢ä¸€ç§å­—ç¬¦æ—¶ */
     else {
         node_num = 2 * char_type_num - 1;
         
         huf_tree = (HufTree)malloc(node_num * sizeof(HufTreeNode));
 
-        /* ³õÊ¼»¯HuffmanÊ÷ */
+        /* åˆå§‹åŒ–Huffmanæ ‘ */
         for (i = 0; i < char_type_num; ++ i) {
             fread((char *)(&huf_tree[i].ch), sizeof(unsigned char), 1, infile);
             fread((char *)(&huf_tree[i].freq), sizeof(unsigned long), 1, infile);
@@ -448,10 +448,10 @@ int HuffmanDecoder(char *infile_name, char *outfile_name) {
             huf_tree[i].parent = 0;
         }
 
-        /* ÖØ½¨HuffmanÊ÷ */
+        /* é‡å»ºHuffmanæ ‘ */
         CreateHufTree(huf_tree, char_type_num, node_num);
 
-        /* ½âÂë */
+        /* è§£ç  */
         fread((char *)(&file_len), sizeof(unsigned long), 1, infile);
         outfile = fopen(outfile_name, "wb");
         if (outfile == NULL) {
@@ -459,11 +459,11 @@ int HuffmanDecoder(char *infile_name, char *outfile_name) {
         }
         root = node_num - 1;
         while (TRUE) {
-            /* ÒÔ 8bits ÎªÒ»¸ö´¦Àíµ¥Ôª */
+            /* ä»¥ 8bits ä¸ºä¸€ä¸ªå¤„ç†å•å…ƒ */
             fread((char *)(&temp_char), sizeof(unsigned char), 1, infile);
             for (i = 0; i < 8; ++ i) {
                 if ((temp_char & 128) == 0) {
-                    /* 128µÈ¼ÛÓÚ0b10000000 */
+                    /* 128ç­‰ä»·äº0b10000000 */
                     root = huf_tree[root].lchild;
                 }
                 else {
@@ -484,11 +484,11 @@ int HuffmanDecoder(char *infile_name, char *outfile_name) {
             }
         }
 
-        /* ¹Ø±ÕÎÄ¼ş */
+        /* å…³é—­æ–‡ä»¶ */
         fclose(infile);
         fclose(outfile);
 
-        /* ÊÍ·ÅHuffmanÊ÷Õ¼ÓÃµÄ¿Õ¼ä */
+        /* é‡Šæ”¾Huffmanæ ‘å ç”¨çš„ç©ºé—´ */
         free(huf_tree);
     }
 
